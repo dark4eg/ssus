@@ -1,0 +1,17 @@
+/target
+/lib
+/classes
+/checkouts
+pom.xml
+*.jar
+*.class
+/.lein-*
+profiles.clj
+/.env
+.nrepl-port
+/log
+.lein-env
+Capstanfile
+Dockerfile
+figwheel_server.log
+*.iml
