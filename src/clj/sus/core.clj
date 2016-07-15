@@ -45,8 +45,8 @@
                         mount/start-with-args
                         :started)]
     (log/info component "started"))
-  (db/create-schema db/conn)
-  (db/init db/conn)
+  (db/create-schema)
+  (db/init)
   (.addShutdownHook (Runtime/getRuntime) (Thread. stop-app)))
 
 (defn -main [& args]

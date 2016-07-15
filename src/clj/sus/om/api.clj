@@ -11,7 +11,6 @@
   (try
     (generate-response
       ((om/parser {:read parser/readf :mutate parser/mutatef})
-        {:conn (:datomic-connection req)
-         :session (:session req)}
+        {}
         (:transit-params req)))
     (catch Exception e (str "caught exception: " (.getMessage e)))))

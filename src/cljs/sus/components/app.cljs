@@ -26,7 +26,7 @@
                    {:title                 page-title
                     :icon-element-right    (ui/flat-button
                                              {:label     "Github"
-                                              :href      "https://github.com/madvas/cljs-react-material-ui-example"
+                                              :href      "https://github.com/dark4eg/ssus"
                                               :secondary true
                                               :target    :_blank})
 
