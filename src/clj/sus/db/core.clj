@@ -56,10 +56,7 @@
                                :url/from-ip ip
                                :url/time    (clj-time.coerce/to-long (clj-time.core/now))}])
         title (http/get url)]
-    ;@(d/transact conn [{:db/id (val (first (:tempids @pre)))
-    ;                    :url/title title
-    ;                    :url/short-url (hasher/encode {:salt "HasdmJw2e3J2"} (val (first (:tempids @pre))))}])
-    {:db/id         (val (first (:tempids @pre)))
-     :url/title     (first (:content (first (html/select (html/html-snippet (:body @title) {:insecure? true}) [:title]))))
-     :url/short-url (hasher/encode {:salt "HasdmJw2e3J2"} (val (first (:tempids @pre))))}
+    @(d/transact conn [{:db/id         (val (first (:tempids @pre)))
+                        :url/title     (first (:content (first (html/select (html/html-snippet (:body @title) {:insecure? true}) [:title]))))
+                        :url/short (hasher/encode {:salt "HasdmJw2e3J2"} (val (first (:tempids @pre))))}])
     ))
