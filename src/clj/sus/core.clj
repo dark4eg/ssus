@@ -5,12 +5,27 @@
             [sus.config :refer [env]]
             [clojure.tools.cli :refer [parse-opts]]
             [clojure.tools.logging :as log]
+            [datomic.api :as d]
+            [sus.db.core :as db]
             [mount.core :as mount])
   (:gen-class))
 
 (def cli-options
   [["-p" "--port PORT" "Port number"
     :parse-fn #(Integer/parseInt %)]])
+
+(mount/defstate ^{:on-reload :noop}
+                conn
+                :start (when-let [uri (:database-url env)]
+                         (d/delete-database uri)
+                         (d/create-database uri)
+                         (d/connect uri)
+                         ;(let [c (d/connect uri)]
+                         ;  ;(db/create-schema c)
+                         ;  @(d/transact c db/schema)
+                         ;  c)
+                         )
+                :stop (-> conn .release))
 
 (mount/defstate ^{:on-reload :noop}
                 http-server
@@ -43,6 +58,8 @@
                         mount/start-with-args
                         :started)]
     (log/info component "started"))
+  (db/create-schema conn)
+  (db/init conn)
   (.addShutdownHook (Runtime/getRuntime) (Thread. stop-app)))
 
 (defn -main [& args]

@@ -9,7 +9,5 @@
 
 (defroutes home-routes
            (GET  "/"     req (app-page))
-           (POST "/urls" req (println "add url"))
-           (GET  "/urls" req (println "get urls"))
+           (GET  "/:url" req (println "need redirect"))
            (POST "/api"  req (api req)))
-

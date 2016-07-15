@@ -34,7 +34,10 @@
                  [clojurewerkz/urly "1.0.0"]
                  [im.chit/adi "0.3.4"]
                  [com.cognitect/transit-clj "0.8.285"]
-                 [com.cognitect/transit-cljs "0.8.239"]]
+                 [com.cognitect/transit-cljs "0.8.239"]
+                 [clj-http "2.2.0"]
+                 [cljsjs/react-infinite "0.9.0-0"]
+                 [http-kit "2.1.18"]]
 
   :min-lein-version "2.0.0"
 
