@@ -8,9 +8,15 @@
    :body    data})
 
 (defn api [req]
-  (try
-    (generate-response
-      ((om/parser {:read parser/readf :mutate parser/mutatef})
-        {}
-        (:transit-params req)))
-    (catch Exception e (str "caught exception: " (.getMessage e)))))
+  ;(try
+  ;  (generate-response
+  ;    ((om/parser {:read parser/readf :mutate parser/mutatef})
+  ;      {}
+  ;      (:transit-params req)))
+  ;  (catch Exception e (str "caught exception: " (.getMessage e))))
+  (println "wtf???" (:params req))
+  (generate-response
+    ((om/parser {:read parser/readf :mutate parser/mutatef})
+      {:ip (or (get-in req [:headers "x-forwarded-for"]) (:remote-addr req))
+       :session (:session req)}
+      (:transit-params req))))

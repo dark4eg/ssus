@@ -39,7 +39,8 @@
                  [http-kit "2.1.18"]
                  [jstrutz/hashids "1.0.1"]
                  [clj-time "0.12.0"]
-                 [enlive "1.1.6"]]
+                 [enlive "1.1.6"]
+                 [clova "0.26.0"]]
 
   :min-lein-version "2.0.0"
 

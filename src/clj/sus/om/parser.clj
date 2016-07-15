@@ -15,8 +15,10 @@
   {:value {:error (str "No handler for read miss key " k)}})
 
 (defmethod readf :url/list
-  [{:keys [conn session selector]} _ params]
-  {:value (list-urls (:skip params) (:take params))})
+  [{:keys [state] :as env} _ params]
+  (println "wtf???" _ params)
+  {:value (list-urls (:skip (:paging params))
+                     (:take (:paging params)))})
 
 ;; =============================================================================
 ;; Mutations

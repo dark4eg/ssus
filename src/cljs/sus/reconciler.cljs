@@ -10,7 +10,8 @@
 (defn transit-post [url]
   (fn [{:keys [remote]} cb]
     (go (let [response (<! (http/post url {:transit-params    remote
-                                           :with-credentials? true}))]
+                                           :with-credentials? true
+                                           :headers {"x-csrf-token" js/csrfToken}}))]
           (cb (:body response))))))
 
 (defn merge-w [one two]
@@ -21,8 +22,5 @@
                   :normalize  true
                   :parser     parser
                   :merge-tree merge-w
-                  :send       (transit-post
-                                ;"http://localhost:10555/api"
-                                "http://localhost:3000/api"
-                                )}))
+                  :send       (transit-post "http://localhost:3000/api")}))
 
