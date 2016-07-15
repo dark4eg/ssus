@@ -74,8 +74,12 @@
       (d/pull (d/db conn) '[*] (ffirst exist)))))
 
 (defn list-urls [skip take]
-  (d/pull-many (d/db conn) '[*] (limit (map first (d/q '[:find ?e
-                                                         :where [?e :url/title]]
-                                                       (d/db conn)))
-                                       skip
-                                       take)))
+  (limit (->> (d/pull-many (d/db conn) '[*] (map first (d/q '[:find ?e
+                                                              :where
+                                                              [?e :url/title]
+                                                              [?e :url/time]]
+                                                            (d/db conn))))
+              (sort-by first)
+              reverse)
+         skip
+         take))

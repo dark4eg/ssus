@@ -17,3 +17,4 @@ figwheel_server.log
 *.iml
 /.idea
 Procfile
+/resources/public/css
