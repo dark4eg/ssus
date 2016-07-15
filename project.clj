@@ -10,6 +10,7 @@
                  [org.omcljs/om "1.0.0-alpha40" :exclusions [cljsjs/react]]
                  [com.ladderlife/cellophane "0.3.4" :exclusions [org.omcljs/om]]
                  [org.clojure/clojurescript "1.9.93" :scope "provided"]
+                 [org.clojure/core.async "0.2.385"]
                  [org.clojure/clojure "1.8.0"]
                  [selmer "1.0.7"]
                  [markdown-clj "0.9.89"]
@@ -31,7 +32,9 @@
                  [org.webjars/webjars-locator-jboss-vfs "0.1.0"]
                  [luminus-immutant "0.2.2"]
                  [clojurewerkz/urly "1.0.0"]
-                 [im.chit/adi "0.3.4"]]
+                 [im.chit/adi "0.3.4"]
+                 [com.cognitect/transit-clj "0.8.285"]
+                 [com.cognitect/transit-cljs "0.8.239"]]
 
   :min-lein-version "2.0.0"
 

@@ -9,5 +9,6 @@
 (defroutes home-routes
            (GET  "/"     [] (app-page))
            (POST "/urls" [] (println "add url"))
-           (GET  "/urls" [] (println "get urls")))
+           (GET  "/urls" [] (println "get urls"))
+           (POST "/api"  [] ()))
 
