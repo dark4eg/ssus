@@ -7,6 +7,13 @@
             [net.cgrand.enlive-html :as html])
   (:import (java.net URI)))
 
+(defmacro limit
+  "Pagination mimicking the MySql LIMIT"
+  ([coll start-from quantity]
+   `(take ~quantity (drop ~start-from ~coll)))
+  ([coll quantity]
+   `(limit ~coll 0 ~quantity)))
+
 (defstate ^{:on-reload :noop}
           conn
           :start (when-let [uri (:database-url env)]
@@ -60,8 +67,15 @@
                                    :url/from-ip ip
                                    :url/time    (clj-time.coerce/to-long (clj-time.core/now))}])
             title (http/get url)]
-        @(d/transact conn [{:db/id         (val (first (:tempids @pre)))
-                            :url/title     (first (:content (first (html/select (html/html-snippet (:body @title) {:insecure? true}) [:title]))))
+        @(d/transact conn [{:db/id     (val (first (:tempids @pre)))
+                            :url/title (first (:content (first (html/select (html/html-snippet (:body @title) {:insecure? true}) [:title]))))
                             :url/short (hasher/encode {:salt "HasdmJw2e3J2"} (val (first (:tempids @pre))))}])
         (d/pull (d/db conn) '[*] (val (first (:tempids @pre)))))
       (d/pull (d/db conn) '[*] (ffirst exist)))))
+
+(defn list-urls [skip take]
+  (d/pull-many (d/db conn) '[*] (limit (map first (d/q '[:find ?e
+                                                         :where [?e :url/title]]
+                                                       (d/db conn)))
+                                       skip
+                                       take)))
