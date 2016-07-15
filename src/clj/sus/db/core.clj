@@ -3,24 +3,25 @@
             [mount.core :refer [defstate]]
             [sus.config :refer [env]]))
 
-(defstate conn
+(defstate ^{:on-reload :noop}
+          conn
           :start (-> env :database-url d/connect)
           :stop (-> conn .release))
 
 (defn create-schema []
-  (let [schema [{:db/ident              :user/id
-                 :db/valueType          :db.type/string
+  (let [schema [{:db/ident              :urls/url
+                 :db/valueType          :db.type/uri
                  :db/cardinality        :db.cardinality/one
                  :db.install/_attribute :db.part/db}
-                {:db/ident              :user/first-name
-                 :db/valueType          :db.type/string
+                {:db/ident              :urls/short-url
+                 :db/valueType          :db.type/uri
                  :db/cardinality        :db.cardinality/one
                  :db.install/_attribute :db.part/db}
-                {:db/ident              :user/last-name
-                 :db/valueType          :db.type/string
+                {:db/ident              :urls/time
+                 :db/valueType          :db.type/long
                  :db/cardinality        :db.cardinality/one
                  :db.install/_attribute :db.part/db}
-                {:db/ident              :user/email
+                {:db/ident              :urls/from-ip
                  :db/valueType          :db.type/string
                  :db/cardinality        :db.cardinality/one
                  :db.install/_attribute :db.part/db}]]
