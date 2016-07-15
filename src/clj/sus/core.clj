@@ -15,19 +15,6 @@
     :parse-fn #(Integer/parseInt %)]])
 
 (mount/defstate ^{:on-reload :noop}
-                conn
-                :start (when-let [uri (:database-url env)]
-                         (d/delete-database uri)
-                         (d/create-database uri)
-                         (d/connect uri)
-                         ;(let [c (d/connect uri)]
-                         ;  ;(db/create-schema c)
-                         ;  @(d/transact c db/schema)
-                         ;  c)
-                         )
-                :stop (-> conn .release))
-
-(mount/defstate ^{:on-reload :noop}
                 http-server
                 :start
                 (http/start
@@ -58,8 +45,8 @@
                         mount/start-with-args
                         :started)]
     (log/info component "started"))
-  (db/create-schema conn)
-  (db/init conn)
+  (db/create-schema db/conn)
+  (db/init db/conn)
   (.addShutdownHook (Runtime/getRuntime) (Thread. stop-app)))
 
 (defn -main [& args]

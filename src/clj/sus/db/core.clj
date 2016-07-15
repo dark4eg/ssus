@@ -4,6 +4,14 @@
             [sus.config :refer [env]])
   (:import (java.net URI)))
 
+(defstate ^{:on-reload :noop}
+                conn
+                :start (when-let [uri (:database-url env)]
+                         (d/delete-database uri)
+                         (d/create-database uri)
+                         (d/connect uri))
+                :stop (-> conn .release))
+
 (defn create-schema [conn]
   (let [schema [{:db/id                 #db/id[:db.part/db]
                  :db/ident              :url/url
